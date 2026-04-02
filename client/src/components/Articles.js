@@ -2,6 +2,7 @@ import React from 'react';
 import styled from "styled-components";
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import axios from 'axios';
 
 const MainContainer = styled.div`
   margin: 7rem 0;
