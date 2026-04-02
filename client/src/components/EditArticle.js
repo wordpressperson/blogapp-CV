@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from "styled-components";
 import axios from 'axios';
-import { useAuth } from '../context/AuthContext';   // ← added
+import { useAuth } from '../context/AuthContext';
 
 const EditArticleContainer = styled.div`
   margin: 3rem auto;
@@ -30,11 +30,9 @@ const EditArticleContainer = styled.div`
 `;
 
 const EditArticle = (props) => {
-  const { isAdmin } = useAuth();   // ← get isAdmin from context
+  const { isAdmin } = useAuth();   // ← Hook 1: always called first
 
-  // If user is not admin, don't render the whole component
-  if (!isAdmin) return null;
-
+  // All hooks must be called BEFORE any early return
   const [title, setTitle] = useState("");
   const [article, setArticle] = useState("");
   const [author, setAuthor] = useState("");
@@ -46,11 +44,14 @@ const EditArticle = (props) => {
       .get(`/articles/${props.match.params.id}`)
       .then((res) => {
         setTitle(res.data.title);
-        setAuthor(res.data.authorname || res.data.author);   // handles both field names
+        setAuthor(res.data.authorname || res.data.author);
         setArticle(res.data.article);
       })
       .catch((error) => console.error(error));
   }, [props.match.params.id]);
+
+  // Now it's safe to early-return for non-admins
+  if (!isAdmin) return null;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -61,7 +62,6 @@ const EditArticle = (props) => {
       .put(`/articles/update/${props.match.params.id}`, updatedArticle)
       .then((res) => {
         setMessage(res.data);
-        // Optional: refresh the list if parent passed a callback
         if (props.onArticleUpdated) props.onArticleUpdated();
       })
       .catch((err) => {
