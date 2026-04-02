@@ -14,7 +14,7 @@ const ModalOverlay = styled.div`
 
 const ModalContent = styled.div`
   background: white;
-  padding: 2rem;
+  padding: 2.5rem;
   border-radius: 12px;
   width: 100%;
   max-width: 420px;
@@ -36,21 +36,26 @@ const LoginModal = ({ isOpen, onClose }) => {
 
     try {
       await axios.post('/api/auth/send-magic', { email });
-      setMessage("✅ Magic link sent! Check your email.");
+      setMessage("✅ Magic link sent! Please check your email.");
       setEmail("");
     } catch (err) {
-      setMessage("Failed to send link. Please try again.");
+      setMessage("❌ Failed to send link. Please try again.");
       console.error(err);
     } finally {
       setLoading(false);
     }
   };
 
+  // Prevent closing when clicking inside the modal content
+  const handleContentClick = (e) => {
+    e.stopPropagation();
+  };
+
   if (!isOpen) return null;
 
   return (
     <ModalOverlay onClick={onClose}>
-      <ModalContent onClick={(e) => e.stopImmediatePropagation()}>
+      <ModalContent onClick={handleContentClick}>
         <h2>Login to the Blog</h2>
         <p>Enter your email to receive a magic login link.</p>
 
@@ -60,22 +65,57 @@ const LoginModal = ({ isOpen, onClose }) => {
             placeholder="your@email.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            style={{ width: '100%', padding: '12px', margin: '15px 0', fontSize: '1rem' }}
+            style={{ 
+              width: '100%', 
+              padding: '12px', 
+              margin: '15px 0', 
+              fontSize: '1rem',
+              border: '1px solid #ccc',
+              borderRadius: '6px'
+            }}
             required
+            autoFocus
           />
           <button
             type="submit"
             disabled={loading}
-            style={{ width: '100%', padding: '12px', background: '#007bff', color: 'white', border: 'none', borderRadius: '6px', fontSize: '1rem' }}
+            style={{ 
+              width: '100%', 
+              padding: '12px', 
+              background: '#007bff', 
+              color: 'white', 
+              border: 'none', 
+              borderRadius: '6px', 
+              fontSize: '1rem',
+              cursor: loading ? 'not-allowed' : 'pointer'
+            }}
           >
             {loading ? "Sending..." : "Send Magic Link"}
           </button>
         </form>
 
-        {message && <p style={{ marginTop: '1rem', color: message.includes('✅') ? 'green' : 'red' }}>{message}</p>}
+        {message && (
+          <p style={{ 
+            marginTop: '1rem', 
+            color: message.includes('✅') ? 'green' : 'red',
+            fontWeight: '500'
+          }}>
+            {message}
+          </p>
+        )}
 
-        <button onClick={onClose} style={{ marginTop: '1rem', background: 'none', border: 'none', color: '#666' }}>
-          Close
+        <button 
+          onClick={onClose} 
+          style={{ 
+            marginTop: '1.5rem', 
+            background: 'none', 
+            border: 'none', 
+            color: '#666', 
+            cursor: 'pointer',
+            textDecoration: 'underline'
+          }}
+        >
+          Close Window
         </button>
       </ModalContent>
     </ModalOverlay>
