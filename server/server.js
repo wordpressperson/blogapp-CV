@@ -9,6 +9,8 @@ const port = process.env.PORT || 8080;
 
 const config = require("./config/key");
 
+app.use('/api/auth', require('./routes/auth'));
+
 app.use(cors());
 app.use(express.json());
 

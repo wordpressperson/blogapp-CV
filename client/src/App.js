@@ -24,6 +24,7 @@ function App() {
       <div className="App">
         <Header />
         <Navbar />
+        <Route path="/auth/verify" element={<AuthVerify />} />
         <Route exact path='/' render={() => <Articles posts={posts} />} />
         <Route path='/add' component={AddArticle} />
         <Route path='/article/:id' render={(props) => <Article {...props} posts={posts}/>} />

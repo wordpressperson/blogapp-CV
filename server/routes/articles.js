@@ -2,6 +2,14 @@ const express = require('express');
 const router = express.Router();
 const Article = require('../models/Article')
 
+const { protect, adminOnly } = require('../middleware/auth');
+
+//protect mutating routes
+router.post('/', protect, adminOnly, createArticle);
+router.put('/:id', protect, adminOnly, updateArticle);
+router.delete('/:id', protect, adminOnly, deleteArticle);
+// GET stays open to everyone
+
 //FETCHING ALL ARTICLES
 router.get('/', (req, res) => {
     Article.find()
