@@ -8,6 +8,7 @@ import {BrowserRouter as Router, Route} from 'react-router-dom'
 import Articles from './components/Articles';
 import axios from 'axios';
 import AddArticle from './components/AddArticle';
+import AuthVerify from './pages/AuthVerify';
 import EditArticle from './components/EditArticle';
 import Article from './components/Article';
 
