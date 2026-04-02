@@ -1,14 +1,14 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import ReactDOM from 'react-dom';                    // ← changed back to react-dom
 import './index.css';
 import App from './App';
-import { AuthProvider } from './context/AuthContext';   // ← new import
+import { AuthProvider } from './context/AuthContext';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
+ReactDOM.render(
   <React.StrictMode>
-    <AuthProvider>          {/* ← wrap here */}
+    <AuthProvider>          {/* ← your auth wrapper */}
       <App />
     </AuthProvider>
-  </React.StrictMode>
+  </React.StrictMode>,
+  document.getElementById('root')
 );
