@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from "styled-components";
 import axios from 'axios';
-import { useAuth } from '../context/AuthContext';   // ← your import is correct
+import { useAuth } from '../context/AuthContext';
 
 const AddArticleContainer = styled.div`
   margin: 3rem auto;
@@ -30,15 +30,16 @@ const AddArticleContainer = styled.div`
 `;
 
 const AddArticle = ({ onArticleAdded }) => {
-  const { isAdmin } = useAuth();           // ← get isAdmin from context
+  const { isAdmin } = useAuth();   // ← Hook must be at the top
 
-  // If user is not admin, don't render the whole component
-  if (!isAdmin) return null;
-
+  // All useState hooks MUST be called BEFORE any early return
   const [title, setTitle] = useState("");
   const [article, setArticle] = useState("");
   const [author, setAuthor] = useState("");
   const [message, setMessage] = useState("");
+
+  // Now it's safe to early return for non-admins
+  if (!isAdmin) return null;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -48,7 +49,7 @@ const AddArticle = ({ onArticleAdded }) => {
     axios
       .post('/articles/add', newArticle)
       .then((res) => {
-        setMessage(res.data);           // show success message
+        setMessage(res.data);
         setTitle("");
         setArticle("");
         setAuthor("");
