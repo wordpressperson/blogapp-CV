@@ -12,11 +12,13 @@ const AuthVerify = () => {
     if (token) {
       axios.get(`/api/auth/verify?token=${token}`)
         .then((res) => {
+          console.log('✅ Magic link verified - logging in');
           login(res.data.token, res.data.user);
           
-          // Force full reload so AuthContext + App re-initialize properly
-          window.location.href = '/';
-          // Alternative (even more reliable): window.location.reload();
+          // Full page reload ensures everything (App + Articles + modal) resets correctly
+          setTimeout(() => {
+            window.location.href = '/';
+          }, 300);
         })
         .catch((err) => {
           console.error(err);
@@ -26,9 +28,16 @@ const AuthVerify = () => {
     }
   }, [login]);
 
-  return <div style={{ textAlign: 'center', marginTop: '100px', fontSize: '1.2rem' }}>
-    Verifying your magic link... Please wait.
-  </div>;
+  return (
+    <div style={{ 
+      textAlign: 'center', 
+      marginTop: '120px', 
+      fontSize: '1.3rem',
+      color: '#333'
+    }}>
+      Verifying your magic link... Please wait a moment.
+    </div>
+  );
 };
 
 export default AuthVerify;
