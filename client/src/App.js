@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Header from './components/layouts/Header';
 import Navbar from './components/layouts/Navbar';
 import Footer from './components/layouts/Footer';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'; // ← added Switch
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'; // added Switch
 import Articles from './components/Articles';
 import axios from 'axios';
 import AddArticle from './components/AddArticle';
