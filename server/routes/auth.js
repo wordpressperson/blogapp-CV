@@ -18,7 +18,10 @@ router.post('/send-magic', async (req, res) => {
 
   const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: '15m' });
 
-  const magicLink = `${process.env.FRONTEND_URL}/auth/verify?token=${token}`;
+  // ← FIXED: Prevent double slash
+  const frontendUrl = process.env.FRONTEND_URL.replace(/\/$/, '');
+  const magicLink = `${frontendUrl}/auth/verify?token=${token}`;
+//  const magicLink = `${process.env.FRONTEND_URL}/auth/verify?token=${token}`;
 
   try {
     const sgMail = require('@sendgrid/mail');
