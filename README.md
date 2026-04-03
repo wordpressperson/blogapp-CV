@@ -1,7 +1,3 @@
-**Here is the clean, ready-to-use Markdown** you can copy and paste directly into your public repository.
-
-Create a new file in the root of your project called **`TECHNICAL-DOC.md`** (or add it to your `README.md`).
-
 ```markdown
 # Blog Application – Technical Documentation
 
