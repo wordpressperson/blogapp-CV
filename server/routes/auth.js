@@ -8,7 +8,6 @@ const JWT_SECRET = process.env.JWT_SECRET; // add to .env + Render dashboard
 const MAGIC_EXPIRY = '15m';
 
 // Send magic link
-// Send magic link
 router.post('/send-magic', async (req, res) => {
   const { email } = req.body;
   if (!email) return res.status(400).json({ msg: 'Email required' });
@@ -23,7 +22,7 @@ router.post('/send-magic', async (req, res) => {
   const transporter = nodemailer.createTransport({
     host: process.env.EMAIL_HOST,
     port: Number(process.env.EMAIL_PORT),
-    secure: true,
+    secure: false,
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS
