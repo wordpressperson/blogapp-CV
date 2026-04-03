@@ -35,6 +35,13 @@ function App() {
     }
   }, [user]);
 
+    // Close login modal automatically once user is logged in
+  useEffect(() => {
+    if (user && showLoginModal) {
+      setShowLoginModal(false);
+    }
+  }, [user, showLoginModal]);
+
   const refreshPosts = () => {
     axios.get('/articles')
       .then(res => setPosts(res.data))
